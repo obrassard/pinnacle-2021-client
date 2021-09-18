@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
+import { ObjectDetectionComponent } from './object-detection/object-detection.component';
 
 const routes: Routes = [
-  {path: "scan", component: BarcodeScannerComponent}
+  {path: "scan", component: ObjectDetectionComponent}
 ];
 
 @NgModule({
