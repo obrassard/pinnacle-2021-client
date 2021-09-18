@@ -24,5 +24,8 @@ export class RecipeService extends HttpService {
 
 export interface Recipe {
   label: string,
-  image: string
+  image: string,
+  url: string,
+  calories: number,
+  mealType: string[]
 }

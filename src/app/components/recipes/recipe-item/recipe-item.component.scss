@@ -6,9 +6,25 @@
     margin: 0.5em;
     transform: translateX(-200%);
     animation: slide-in 0.5s forwards;
+    position: relative;
+    min-height: 10em;
+
+    &:hover {
+        background: #f2f2f2;
+    }
 
     img {
         max-width: 25%;
+    }
+
+    .calories {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+    }
+
+    .recipe-content {
+        padding: 0.5em;
     }
 }
 
