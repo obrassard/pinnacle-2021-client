@@ -37,26 +37,30 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy{
 
   async ngAfterViewInit() {
     await this.setupDevices();
+    this.seUpBarCodeScanner();
+
     this.predictWithCocoModel();
+  }
 
+  seUpBarCodeScanner(): void{
     ScanditSDK.configure("AeNAzGAQQZ7rGTtUBzWc5yIXcjRVLvW9BEmBURVia9qiTMSWIQ3kUNduBr2NZuewkHl9tY8HrUZBaVZOGDDGpng0DGOmWZGOM3fagS411ISPQZ/+hiQ2MO9Ezxo+De4H9kjVq98+xZ2EDmG1nQeqxfVg91JIZ82o1PWEiN5pAwwbfHnmvtx3bczFmTkMLo/qrAWkDH7Q4DF156t90L3RuAUagz2L+KIRv25hUB253j0WZMuiq/6jKcD0xryg/G3dmnTEWu0Nb2sQCcF8Fs4RxkJ7V3BBStVeU4XBhS3xC+eanHaImfrx51MNrMTI1HjKlclPcNyLHSNxrVMmyGq3k3v4HdZlvIokh5BAdNSyYV2gvmvmS5gx7Ys+v5xlhhrPRm/HASYtyTKOwaWxvw7LCZiELLOgsbrRqBQzJ7SKvuj6uzpaw9VnPngelQ9vIV1Dg+tZuOxcSX1l1cvDDs75WeNAZA/cmTWyTzbbXzEA9+hRVVNkvGnFnlxkuddWIv+Ip1A8lnfVsUmXkRA2R5ERdnI4rtZR4kMBxNfYuir58lHoKP1uk4NuXOPDP3GBSlP+EdWWsVqWyB3DOeWoNwUzQNOb0rp1trUCq747cTbyxqw4FkzrN+dZpKUxgySdUt0BmRAH6+ola0/XKI10zioh3EU3Jar8Z0KxhvmT4Clni6qbFGJHeft0ulz4wsjpR+lPYkFZRcwaEnim+oLnBDR/JdgTe2S0PteyqLrLmlCnlW6pncydaIFBjKtd/ikv0PdJvwe5eT46PCLRWWQi2FtH/SaHihyBAS+rEmmLmQLvSQ==", {
-        engineLocation: "https://cdn.jsdelivr.net/npm/scandit-sdk/build",
-    }).then(() => {
-        ScanditSDK.BarcodePicker.create(document.getElementById("scandit-barcode-picker")!, {
-            playSoundOnScan: true,
-            vibrateOnScan: true,
-            hideLogo: true,
-        }).then((barcodePicker) => {
-            this.barcodePicker = barcodePicker;
-            const scanSettings = new ScanSettings({
-                enabledSymbologies: [Barcode.Symbology.UPCA, Barcode.Symbology.EAN13],
-                codeDuplicateFilter: 1000,
-            });
+      engineLocation: "https://cdn.jsdelivr.net/npm/scandit-sdk/build",
+  }).then(() => {
+      ScanditSDK.BarcodePicker.create(document.getElementById("scandit-barcode-picker")!, {
+          playSoundOnScan: true,
+          vibrateOnScan: true,
+          hideLogo: true,
+      }).then((barcodePicker) => {
+          this.barcodePicker = barcodePicker;
+          const scanSettings = new ScanSettings({
+              enabledSymbologies: [Barcode.Symbology.UPCA, Barcode.Symbology.EAN13],
+              codeDuplicateFilter: 1000,
+          });
 
-            barcodePicker.applyScanSettings(scanSettings);
-            barcodePicker.on("scan", (s) => this.onScan(s));
-        });
-    });
+          barcodePicker.applyScanSettings(scanSettings);
+          barcodePicker.on("scan", (s) => this.onScan(s));
+      });
+  });
   }
 
   ngOnDestroy(): void {
@@ -75,7 +79,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy{
       try {
         
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: true
+          video: { facingMode: { exact: "environment" } }
         });
         this.HEIGHT = stream.getVideoTracks()[0].getSettings().height!;
         this.WIDTH = stream.getVideoTracks()[0].getSettings().width!;
@@ -131,7 +135,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy{
       const height = prediction.bbox[3];  // Bounding box
 
       //miror the position
-      x = this.WIDTH - x-width;
+      //x = this.WIDTH - x-width;
 
 
       ctx.strokeStyle = "#00FFFF";
