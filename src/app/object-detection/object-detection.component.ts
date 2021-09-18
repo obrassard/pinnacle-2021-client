@@ -22,6 +22,7 @@ export class ObjectDetectionComponent implements AfterViewInit{
   public canvas!: ElementRef;
 
   error: any;
+  lastPrediction: String | undefined;
 
 
   async ngAfterViewInit() {
@@ -82,6 +83,7 @@ export class ObjectDetectionComponent implements AfterViewInit{
     predictions.forEach(prediction => {  
       if(!acceptedPrediction.includes(prediction.class))
         return;
+
       let x = prediction.bbox[0];
       let y = prediction.bbox[1];
       const width = prediction.bbox[2];
@@ -98,8 +100,17 @@ export class ObjectDetectionComponent implements AfterViewInit{
       y = prediction.bbox[1];  
       ctx.fillStyle = "#000000";
       ctx.fillText(prediction.class, x, y);
+
+      if(this.lastPrediction != prediction.class){
+        this.lastPrediction = prediction.class;
+        this.sumbitItem(prediction.class);
+      }
     });
-  };
+  }
+
+  sumbitItem(item:String){
+    console.log(item);
+  }
 
   
 }

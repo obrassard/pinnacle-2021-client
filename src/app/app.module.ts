@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { ErrorPipe } from './pipes/error.pipe';
 import { NavWrapperComponent } from './components/nav-wrapper/nav-wrapper.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
+import { ObjectDetectionComponent } from './object-detection/object-detection.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { InventoryComponent } from './components/inventory/inventory.component';
     TextFieldComponent,
     ErrorPipe,
     NavWrapperComponent,
-    InventoryComponent
+    InventoryComponent,
+    ObjectDetectionComponent
   ],
   imports: [
     BrowserModule,
