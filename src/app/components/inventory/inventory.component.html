@@ -1,4 +1,21 @@
 <app-nav-wrapper>
+    <h1>My Inventories</h1>
+    <p class="text-gray-500 mt-4">Inventories represent different food storage locations that you want to keep track of.
+        You can create as many inventories as you need.</p>
 
+    <ng-lottie *ngIf="!inventories" [options]="animations.loading" width="200px" height="200px"
+        containerClass="mx-auto"></ng-lottie>
+
+    <ng-container *ngIf="inventories">
+        <div class="grid grid-cols-2 gap-5 mt-6" *ngIf="inventories.length">
+            <a routerLink="/inventories/{{i.id}}" class="bg-white p-6 flex flex-col rounded-lg shadow hover:shadow-md"
+                *ngFor="let i of inventories">
+                <i class="uil uil-box text-2xl text-primary"></i>
+                <span class="font-heading font-semibold text-gray-900">{{i.title}}</span>
+                <span class="text-gray-500 text-sm">{{i.countOfItems}} items</span>
+            </a>
+        </div>
+
+        <button class="button-primary mt-6">Create a new inventory</button>
+    </ng-container>
 </app-nav-wrapper>
-

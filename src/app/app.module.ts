@@ -14,6 +14,11 @@ import { ErrorPipe } from './pipes/error.pipe';
 import { NavWrapperComponent } from './components/nav-wrapper/nav-wrapper.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { ObjectDetectionComponent } from './object-detection/object-detection.component';
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web';
+import { ModalContentComponent } from './components/modal-content/modal-content.component';
+import { InventoryCreationModalComponent } from './components/inventory-creation-modal/inventory-creation-modal.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -26,13 +31,16 @@ import { ObjectDetectionComponent } from './object-detection/object-detection.co
     NavWrapperComponent,
     InventoryComponent,
     ObjectDetectionComponent
+    InventoryCreationModalComponent,
+    ToastComponent,
   ],
   imports: [
     BrowserModule,
     IconsModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    LottieModule.forRoot({ player: () => player }),
   ],
   providers: [],
   bootstrap: [AppComponent]
