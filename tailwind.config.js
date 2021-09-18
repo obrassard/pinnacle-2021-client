@@ -13,6 +13,7 @@ module.exports = {
     extend: {
       colors: {
         'primary': '#3ADEC5',
+        'primary-dark': '#20bca5',
         'onPrimary': '#ffffff'
       },
       animation: {
