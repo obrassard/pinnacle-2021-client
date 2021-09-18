@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { IconsModule } from './icons/icons.module';
@@ -15,6 +14,7 @@ import { NavWrapperComponent } from './components/nav-wrapper/nav-wrapper.compon
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { RecipesComponent } from './components/recipes/recipes.component';
 import { RecipeItemComponent } from './components/recipes/recipe-item/recipe-item.component';
+import { ObjectDetectionComponent } from './object-detection/object-detection.component';
 import { LottieModule } from 'ngx-lottie';
 import player from 'lottie-web';
 import { ModalContentComponent } from './components/modal-content/modal-content.component';
@@ -25,17 +25,18 @@ import { ToastComponent } from './components/toast/toast.component';
   declarations: [
     AppComponent,
     NavbarComponent,
-    BarcodeScannerComponent,
     LoginComponent,
     TextFieldComponent,
     ErrorPipe,
     NavWrapperComponent,
     InventoryComponent,
+    ObjectDetectionComponent,
     RecipesComponent,
     RecipeItemComponent,
     ModalContentComponent,
     InventoryCreationModalComponent,
     ToastComponent,
+    ModalContentComponent
   ],
   imports: [
     BrowserModule,
