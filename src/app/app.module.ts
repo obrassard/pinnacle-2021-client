@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { ErrorPipe } from './pipes/error.pipe';
 import { NavWrapperComponent } from './components/nav-wrapper/nav-wrapper.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
+import { RecipesComponent } from './components/recipes/recipes.component';
+import { RecipeItemComponent } from './components/recipes/recipe-item/recipe-item.component';
 import { LottieModule } from 'ngx-lottie';
 import player from 'lottie-web';
 import { ModalContentComponent } from './components/modal-content/modal-content.component';
@@ -29,6 +31,8 @@ import { ToastComponent } from './components/toast/toast.component';
     ErrorPipe,
     NavWrapperComponent,
     InventoryComponent,
+    RecipesComponent,
+    RecipeItemComponent,
     ModalContentComponent,
     InventoryCreationModalComponent,
     ToastComponent,
