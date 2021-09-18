@@ -51,23 +51,22 @@ export class ObjectDetectionComponent implements AfterViewInit{
     }
   }
 
-  public async predictWithCocoModel()
-  {
+  async predictWithCocoModel() {
     const config :cocoSSD.ModelConfig  = {base:'lite_mobilenet_v2'};
     const model = await cocoSSD.load(config);
     this.detectFrame(this.video.nativeElement as HTMLVideoElement,model);
     
   }
 
-  detectFrame = (video: HTMLVideoElement, model: cocoSSD.ObjectDetection) => {
+  detectFrame (video: HTMLVideoElement, model: cocoSSD.ObjectDetection) {
     model.detect(video).then(predictions => {
-      console.log(predictions)
     this.renderPredictions(predictions);
     requestAnimationFrame(() => {
       this.detectFrame(video, model);});
     });
   }
-  renderPredictions = (predictions: cocoSSD.DetectedObject[]) => {  
+
+  renderPredictions (predictions: cocoSSD.DetectedObject[]) {  
     const videoElem = this.video.nativeElement as HTMLVideoElement;
     const ctx = this.canvas.nativeElement.getContext("2d");  
     this.canvas.nativeElement.width  = this.WIDTH;
@@ -76,11 +75,15 @@ export class ObjectDetectionComponent implements AfterViewInit{
     const font = "16px sans-serif";
     ctx.font = font;
     ctx.textBaseline = "top";
+
+    const acceptedPrediction:String[] = ["cake","donut", "pizza", "hot dog", "carrot", "broccoli", "orange", "sandwich", "apple", "banana"];
     
     ctx.drawImage(videoElem,0, 0,videoElem.width,videoElem.height);
     predictions.forEach(prediction => {  
-      const x = prediction.bbox[0];
-      const y = prediction.bbox[1];
+      if(!acceptedPrediction.includes(prediction.class))
+        return;
+      let x = prediction.bbox[0];
+      let y = prediction.bbox[1];
       const width = prediction.bbox[2];
       const height = prediction.bbox[3];  // Bounding box
       ctx.strokeStyle = "#00FFFF";
@@ -90,11 +93,9 @@ export class ObjectDetectionComponent implements AfterViewInit{
       const textWidth = ctx.measureText(prediction.class).width;
       const textHeight = parseInt(font, 10); // base 10
       ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
-    });
-    predictions.forEach(prediction => {
-    
-      const x = prediction.bbox[0];
-      const y = prediction.bbox[1];  
+
+      x = prediction.bbox[0];
+      y = prediction.bbox[1];  
       ctx.fillStyle = "#000000";
       ctx.fillText(prediction.class, x, y);
     });
