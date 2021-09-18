@@ -1,11 +1,13 @@
-<div class="bg-primary text-onPrimary items-center p-4 px-0 md:px-6 flex flex-col md:flex-row justify-between fixed w-full">
-    <img src="/assets/logo.svg" class="h-6 my-1" />
+<div class="bg-primary text-onPrimary items-center p-4 px-0 md:px-6 flex flex-col md:flex-row justify-between fixed top-0 z-30 w-full">
+    <a routerLink="/">
+        <img src="/assets/logo.svg" class="h-6 my-1" />
+    </a>
     <button class="md:hidden block absolute right-6 mt-1" (click)="open=!open">
         <i-feather class="text-onPrimary md:hidden" [name]="open? 'x':'menu'"></i-feather>
     </button>
     <nav [class.opened]="open">
         <a routerLink="/">Home</a>
-        <a routerLink="/">Food</a>
+        <a routerLink="/scan">Scan</a>
         <a routerLink="/">Recipes</a>
         <a routerLink="/">Logout</a>
     </nav>

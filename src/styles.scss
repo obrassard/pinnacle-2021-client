@@ -8,6 +8,11 @@ html {
     font-size: 17px;
 }
 
+body {
+    padding-top: 80px;
+    @apply bg-gray-50;
+}
+
 @layer base {
 
     * {

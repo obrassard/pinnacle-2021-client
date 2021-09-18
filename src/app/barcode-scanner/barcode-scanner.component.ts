@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, AfterViewChecked } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import * as ScanditSDK from "scandit-sdk";
 import {Barcode, ScanResult, ScanSettings} from "scandit-sdk";
 import { UPCapiService } from './UPCapi/upcapi.service';
@@ -38,9 +38,9 @@ export class BarcodeScannerComponent implements AfterViewInit {
   private onScan(result: ScanResult) {
     result.barcodes.forEach(barcode => {
       console.log(barcode.data);
-      this.upcService.getUPCdata(barcode.data).subscribe(upcData => {
-        console.log(upcData);
-      });
+    //   this.upcService.getUPCdata(barcode.data).subscribe(upcData => {
+    //     console.log(upcData);
+    //   });
     })
   }
 
