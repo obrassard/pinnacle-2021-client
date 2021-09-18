@@ -20,9 +20,11 @@
     "@angular/router": "~12.0.4",
     "@ericblade/quagga2": "^1.4.2",
     "ngx-barcode-scanner": "^0.2.0",
-    "quagga": "^0.12.1",
     "rxjs": "~6.6.0",
     "scandit-sdk": "^5.8.0",
+    "@tailwindcss/forms": "^0.3.3",
+    "prettier": "^2.4.1",
+    "tailwindcss": "^2.2.15",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.4"
   },

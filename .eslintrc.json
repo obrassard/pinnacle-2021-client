@@ -1,0 +1,95 @@
+{
+    "root": true,
+    "ignorePatterns": ["projects/**/*"],
+    "overrides": [
+        {
+            "files": ["*.ts"],
+            "parserOptions": {
+                "project": ["tsconfig.json", "e2e/tsconfig.json"],
+                "createDefaultProgram": true
+            },
+            "extends": [
+                "plugin:@angular-eslint/ng-cli-compat",
+                "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+                "plugin:@angular-eslint/template/process-inline-templates"
+            ],
+            "rules": {
+                "@angular-eslint/component-selector": [
+                    "error",
+                    {
+                        "type": "element",
+                        "prefix": "app",
+                        "style": "kebab-case"
+                    }
+                ],
+                "@angular-eslint/directive-selector": [
+                    "error",
+                    {
+                        "type": "attribute",
+                        "prefix": "app",
+                        "style": "camelCase"
+                    }
+                ],
+                "@typescript-eslint/no-non-null-assertion": "off",
+                "@typescript-eslint/naming-convention": [
+                    "error",
+                    { "selector": "default", "format": ["camelCase", "UPPER_CASE"] },
+                    { "selector": "typeLike", "format": ["PascalCase"] }
+                ],
+                "no-console":["error", {}],
+                "indent": [
+                    "error",
+                    4,
+                    {
+                        "SwitchCase": 1
+                    }
+                ],
+                "@typescript-eslint/no-unused-vars": [
+                    "warn",
+                    {
+                        "ignoreRestSiblings": true
+                    }
+                ],
+                "@typescript-eslint/no-shadow": "warn",
+                "arrow-body-style": "off",
+                "curly": "warn",
+                "comma-spacing": "warn",
+                "camelcase": "warn",
+                "semi": "error",
+                "eqeqeq": ["warn", "always"],
+                "@typescript-eslint/no-useless-constructor": "error",
+                "no-lonely-if": "error",
+                "no-unneeded-ternary": "error",
+                "quotes": [
+                    "error",
+                    "single",
+                    {
+                        "avoidEscape": true,
+                        "allowTemplateLiterals": true
+                    }
+                ],
+                "no-var": "error",
+                "prefer-const": "warn",
+                "max-len": [
+                    "warn",
+                    {
+                        "code": 160,
+                        "tabWidth": 2,
+                        "comments": 100,
+                        "ignoreComments": false,
+                        "ignoreTrailingComments": true,
+                        "ignoreUrls": true,
+                        "ignoreStrings": true,
+                        "ignoreTemplateLiterals": true,
+                        "ignoreRegExpLiterals": true
+                    }
+                ]
+            }
+        },
+        {
+            "files": ["*.html"],
+            "extends": ["plugin:@angular-eslint/template/recommended"],
+            "rules": {}
+        }
+    ]
+}
