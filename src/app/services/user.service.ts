@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -37,10 +37,14 @@ export class UserService extends HttpService {
         this.router.navigateByUrl('/login')
     }
 
-
     getUser(): User | null {
         const serialUser = localStorage.getItem('user:identity');
         return serialUser ? JSON.parse(serialUser) : null;
+    }
+
+    userId$(): Observable<string> {
+        const userId = this.getUser()?.id;
+        return userId ? of(userId) : throwError('User is not logged in');
     }
 
     private saveUser(user: User) {
