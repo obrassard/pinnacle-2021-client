@@ -1,0 +1,65 @@
+<div class="grid h-screen grid-cols-8 md:gap-4">
+    <div class="bg-primary hidden md:block md:col-span-4 xl:col-span-3 text-onPrimary h-full w-full p-8 relative">
+        <img src="/assets/logo.svg" class="h-9 my-1" />
+        <img src="/assets/sandwich.svg" class="absolute w-3/4 center top-40 z-20">
+        <img src="/assets/login-wave.svg" class="absolute left-0 bottom-0 w-full z-10">
+        <p class="font-heading text-xl font-semibold mt-5 absolute bottom-10 left-8 z-20">
+            Find inspiration. Reduce waste.
+        </p>
+    </div>
+    <div class="col-span-full w-full md:hidden">
+        <div class="w-full flex flex-col justify-center text-center p-4 pb-28 bg-primary text-onPrimary relative">
+            <img src="/assets/logo.svg" class="h-7 my-1 mt-3" />
+            <p class="font-heading font-semibold mt-2">Find inspiration. Reduce waste.</p>
+            <img src="/assets/sandwich.svg" style="width:210px" class="absolute center-x -bottom-32">
+        </div>
+    </div>
+    <div class="col-span-full xl:col-span-5 md:col-span-4">
+        <div class="pt-32 md:pt-24 px-8 md:px-16 flex flex-col items-center md:max-h-screen md:pb-8 overflow-auto">
+            <img src="/assets/cutlery.png" class="hidden md:block mb-8 w-20"/>
+
+            <ng-container *ngIf="!signup">
+                <h2 class="text-center text-primary">Login with your account</h2>
+                <div class="mt-6 w-full">
+                    <app-text-field [viewModel]="loginVm.email" label="Email address"></app-text-field>
+                </div>
+                <div class="mt-6 w-full">
+                    <app-text-field [viewModel]="loginVm.password" label="Password"></app-text-field>
+                </div>
+                <button class="button-primary mt-8 w-full max-w-md" (click)="login()">Login</button>
+                <button class="text-primary mt-4" (click)="switchContext()">No account ?</button>
+            </ng-container>
+
+            <ng-container *ngIf="signup">
+                <h2 class="text-center text-primary">Create a new account</h2>
+                <div class="mt-6 w-full">
+                    <app-text-field [viewModel]="signupVm.firstName" label="First Name"></app-text-field>
+                </div>
+                <div class="mt-6 w-full">
+                    <app-text-field [viewModel]="signupVm.lastName" label="Last Name"></app-text-field>
+                </div>
+                <div class="mt-6 w-full">
+                    <app-text-field [viewModel]="signupVm.email" label="Email address"></app-text-field>
+                </div>
+                <div class="mt-6 w-full">
+                    <app-text-field [viewModel]="signupVm.phoneNumber" label="Phone Number"></app-text-field>
+                </div>
+                <div class="mt-6 w-full">
+                    <app-text-field [viewModel]="signupVm.password" label="Password"></app-text-field>
+                </div>
+                <button class="button-primary mt-8 w-full max-w-md" (click)="submitSignup()">Signup</button>
+                <button class="text-primary mt-4" (click)="switchContext()">Already have an account ?</button>
+
+            </ng-container>
+
+            <i-feather *ngIf="loading" name="loader" class="animate-spin-slow text-gray-900 mt-4"></i-feather>
+
+            <p class="text-sm text-gray-600 mt-10 flex flex-row items-center justify-center space-x-2">
+                <span>&copy; Team HackThe6ix</span>
+                <img src="/assets/canada.png" class="w-4">
+                <span> &#8212; Pinnacle 2021</span>
+            </p>
+        </div>
+    </div>
+</div>
+

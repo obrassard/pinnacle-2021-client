@@ -14,7 +14,8 @@ module.exports = {
       colors: {
         'primary': '#3ADEC5',
         'primary-dark': '#20bca5',
-        'onPrimary': '#ffffff'
+        'onPrimary': '#ffffff',
+        'stroke': "#E6E7F2",
       },
       animation: {
         'spin-slow': 'spin 2s linear infinite'
