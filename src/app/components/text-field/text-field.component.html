@@ -1,0 +1,11 @@
+<ng-container *ngIf="viewModel">
+    <div class="app-generic-field flex flex-col font-body w-full" [class.focus-within:ring-red]="viewModel.hasError">
+        <label *ngIf="label" class="text-medium font-heading mb-2">{{ label }}</label>
+        <input [type]="viewModel.type" [(ngModel)]="viewModel.value" [placeholder]="viewModel.placeholder"
+        (keyup)="handleKeyUp($event)" (focus)="onFocus()" [required]="viewModel.required"
+        [class.border-stroke]="!viewModel.hasError" [class.border-red-500]="viewModel.hasError" [class.focus:border-red-500]="viewModel.hasError"
+        class="w-full h-full rounded-xl border border-stroke bg-white shadow-sm px-4 py-3 focus-within:ring focus-within:ring-accent
+            focus-within:ring-opacity-80 focus:outline-none focus:border-transparent"/>
+    </div>
+    <p *ngIf="viewModel.error" class="text-red-500 text-sm my-1 ml-0.5">{{viewModel.error|error}}</p>
+</ng-container>

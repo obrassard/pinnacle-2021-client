@@ -6,9 +6,9 @@
         <i-feather class="text-onPrimary md:hidden" [name]="open? 'x':'menu'"></i-feather>
     </button>
     <nav [class.opened]="open">
-        <a routerLink="/">Home</a>
+        <a routerLink="/">My Items</a>
         <a routerLink="/scan">Scan</a>
         <a routerLink="/">Recipes</a>
-        <a routerLink="/">Logout</a>
+        <button (click)="logout()">Logout</button>
     </nav>
 </div>
