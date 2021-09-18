@@ -1,1 +1,12 @@
-<p>inventory-creation-modal works!</p>
+<app-modal-content [defaultOpen]="true">
+    <h2>Create an inventory</h2>
+
+    <div class="mt-6">
+        <app-text-field [viewModel]="viewModel.title" label="Inventory Name"></app-text-field>
+    </div>
+
+    <button *ngIf="!isLoading" class="button-primary block mt-4 mx-auto px-6" (click)="submit()">Add</button>
+    <div *ngIf="isLoading" class="flex items-center">
+        <i-feather name="loader" class="animate-spin-slow text-primary mt-4 mx-auto"></i-feather>
+    </div>
+</app-modal-content>

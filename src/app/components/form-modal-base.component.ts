@@ -16,7 +16,7 @@ export abstract class FormModalBaseComponent {
         this.modal?.show();
     }
 
-    cancel(): void {
+    close(): void {
         this.modal?.dismiss();
     }
 

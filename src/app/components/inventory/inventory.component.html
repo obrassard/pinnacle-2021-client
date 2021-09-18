@@ -16,6 +16,7 @@
             </a>
         </div>
 
-        <button class="button-primary mt-6">Create a new inventory</button>
+        <button class="button-primary mt-6" (click)="openInventoryModal()">Create a new inventory</button>
     </ng-container>
 </app-nav-wrapper>
+<app-inventory-creation-modal (inventoryCreated)="inventoryCreated($event)"></app-inventory-creation-modal>

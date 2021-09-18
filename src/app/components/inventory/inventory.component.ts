@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Inventory, InventoryService } from '../../services/inventory.service';
 import { LottieService } from '../../services/lottie.service';
+import { InventoryCreationModalComponent } from '../inventory-creation-modal/inventory-creation-modal.component';
 
 @Component({
     selector: 'app-inventory',
@@ -9,6 +10,7 @@ import { LottieService } from '../../services/lottie.service';
 })
 export class InventoryComponent implements OnInit {
 
+    @ViewChild(InventoryCreationModalComponent) modal?: InventoryCreationModalComponent;
     inventories?: Inventory[];
 
     constructor(private inventoryService: InventoryService, public animations: LottieService) { }
@@ -17,5 +19,13 @@ export class InventoryComponent implements OnInit {
         this.inventoryService.getUsersInventories().subscribe(
             inventories => this.inventories = inventories
         );
+    }
+
+    openInventoryModal() {
+        this.modal?.show();
+    }
+
+    inventoryCreated(inv: Inventory) {
+        this.inventories?.push(inv);
     }
 }
