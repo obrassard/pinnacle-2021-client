@@ -1,0 +1,15 @@
+
+.recipe-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    app-recipe-item {
+        flex-basis: 70%;
+
+        @media (max-width: 767px) {
+            flex-basis: 90%;
+        }
+    }
+}
+

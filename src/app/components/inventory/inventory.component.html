@@ -7,7 +7,7 @@
         containerClass="mx-auto"></ng-lottie>
 
     <ng-container *ngIf="inventories">
-        <div class="grid grid-cols-2 gap-5 mt-6" *ngIf="inventories.length">
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-6" *ngIf="inventories.length">
             <a routerLink="/inventories/{{i.id}}" class="bg-white p-6 flex flex-col rounded-lg shadow hover:shadow-md"
                 *ngFor="let i of inventories">
                 <i class="uil uil-box text-2xl text-primary"></i>
@@ -16,6 +16,7 @@
             </a>
         </div>
 
-        <button class="button-primary mt-6">Create a new inventory</button>
+        <button class="button-primary mt-8" (click)="openInventoryModal()">Create a new inventory</button>
     </ng-container>
 </app-nav-wrapper>
+<app-inventory-creation-modal (inventoryCreated)="inventoryCreated($event)"></app-inventory-creation-modal>

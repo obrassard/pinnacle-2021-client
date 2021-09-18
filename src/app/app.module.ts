@@ -12,6 +12,8 @@ import { FormsModule } from '@angular/forms';
 import { ErrorPipe } from './pipes/error.pipe';
 import { NavWrapperComponent } from './components/nav-wrapper/nav-wrapper.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
+import { RecipesComponent } from './components/recipes/recipes.component';
+import { RecipeItemComponent } from './components/recipes/recipe-item/recipe-item.component';
 import { ObjectDetectionComponent } from './object-detection/object-detection.component';
 import { LottieModule } from 'ngx-lottie';
 import player from 'lottie-web';
@@ -29,6 +31,9 @@ import { ToastComponent } from './components/toast/toast.component';
     NavWrapperComponent,
     InventoryComponent,
     ObjectDetectionComponent,
+    RecipesComponent,
+    RecipeItemComponent,
+    ModalContentComponent,
     InventoryCreationModalComponent,
     ToastComponent,
     ModalContentComponent
