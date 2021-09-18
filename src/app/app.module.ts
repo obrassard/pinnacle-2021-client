@@ -13,6 +13,8 @@ import { FormsModule } from '@angular/forms';
 import { ErrorPipe } from './pipes/error.pipe';
 import { NavWrapperComponent } from './components/nav-wrapper/nav-wrapper.component';
 import { InventoryComponent } from './components/inventory/inventory.component';
+import { RecipesComponent } from './components/recipes/recipes.component';
+import { RecipeItemComponent } from './components/recipes/recipe-item/recipe-item.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { InventoryComponent } from './components/inventory/inventory.component';
     TextFieldComponent,
     ErrorPipe,
     NavWrapperComponent,
-    InventoryComponent
+    InventoryComponent,
+    RecipesComponent,
+    RecipeItemComponent
   ],
   imports: [
     BrowserModule,
