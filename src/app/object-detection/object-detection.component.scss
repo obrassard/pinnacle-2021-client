@@ -1,0 +1,15 @@
+#container {
+    position: relative;
+  }
+  #container canvas, #overlay {
+    position: absolute;
+  }
+  canvas {
+    border: 1px solid black;
+  }
+  
+::ng-deep{
+  .scandit-logo {
+      display: none;
+  }
+}

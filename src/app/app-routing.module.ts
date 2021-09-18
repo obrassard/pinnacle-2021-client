@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BarcodeScannerComponent } from './barcode-scanner/barcode-scanner.component';
 import { ObjectDetectionComponent } from './object-detection/object-detection.component';
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';

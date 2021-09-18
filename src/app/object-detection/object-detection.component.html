@@ -1,21 +1,23 @@
 <app-nav-wrapper>
-  <video
-    #video
-    id="video"
-    [width]="WIDTH"
-    [height]="HEIGHT"
-    autoplay
-    hidden
-    class="w-full"
-  ></video>
-  <canvas
-    #canvas
-    id="canvas"
-    [width]="WIDTH"
-    [height]="HEIGHT"
-    class="w-full"
-  ></canvas>
-
+  <div id="container">
+    <video
+      #video
+      id="video"
+      [width]="WIDTH"
+      [height]="HEIGHT"
+      autoplay
+      hidden
+      class="w-full z-0"
+    ></video>
+    <canvas
+      #canvas
+      id="canvas"
+      [width]="WIDTH"
+      [height]="HEIGHT"
+      class="w-full z-10"
+    ></canvas>
+    <div id="scandit-barcode-picker" style="max-width: 1280px; max-height: 80%;"></div>
+  </div>
   <br>
     <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert" *ngIf="addedSuccess">
       <div class="flex">
@@ -24,7 +26,7 @@
           <p>Added 1 {{addedSuccess}} to the inventory</p>
           <br>
           <p>Modify the number of items :</p>
-          <div class="grid grid-cols-8 gap-2">
+          <div class="grid grid-cols-8 gap-2 w-full">
             <div>
               <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3">
                 2
@@ -50,7 +52,21 @@
                 6
               </button>
             </div>
-            <div class="col-span-2">Custom</div>
+            <div>
+              <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3">
+                6
+              </button>
+            </div>
+            <div>
+              <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3">
+                7
+              </button>
+            </div>
+            <div>
+              <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3">
+                8
+              </button>
+            </div>
           </div>
         </div>
       </div>
