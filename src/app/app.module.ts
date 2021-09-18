@@ -15,6 +15,11 @@ import { NavWrapperComponent } from './components/nav-wrapper/nav-wrapper.compon
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { RecipesComponent } from './components/recipes/recipes.component';
 import { RecipeItemComponent } from './components/recipes/recipe-item/recipe-item.component';
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web';
+import { ModalContentComponent } from './components/modal-content/modal-content.component';
+import { InventoryCreationModalComponent } from './components/inventory-creation-modal/inventory-creation-modal.component';
+import { ToastComponent } from './components/toast/toast.component';
 
 @NgModule({
   declarations: [
@@ -27,14 +32,18 @@ import { RecipeItemComponent } from './components/recipes/recipe-item/recipe-ite
     NavWrapperComponent,
     InventoryComponent,
     RecipesComponent,
-    RecipeItemComponent
+    RecipeItemComponent,
+    ModalContentComponent,
+    InventoryCreationModalComponent,
+    ToastComponent,
   ],
   imports: [
     BrowserModule,
     IconsModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    LottieModule.forRoot({ player: () => player }),
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,9 @@
+<div *ngIf="isOpened" class="fixed inset-0 flex items-center justify-center h-full w-full bg-opacity-30 z-50"
+    [class.bg-black]="backgroundOverlay">
+	<dialog open class="w-full mx-auto overflow-hidden p-8 bg-white rounded-lg shadow-lg relative" [class.max-w-xl]="wider" [class.max-w-lg]="!wider">
+        <button *ngIf="closable" class="absolute right-4 top-4 rounded-lg hover:text-red-500" (click)="dismiss()">
+			<i-feather name="x"></i-feather>
+		</button>
+        <ng-content></ng-content>
+	</dialog>
+</div>
