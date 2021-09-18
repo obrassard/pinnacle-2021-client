@@ -30,9 +30,10 @@ import { ToastComponent } from './components/toast/toast.component';
     ErrorPipe,
     NavWrapperComponent,
     InventoryComponent,
-    ObjectDetectionComponent
+    ObjectDetectionComponent,
     InventoryCreationModalComponent,
     ToastComponent,
+    ModalContentComponent
   ],
   imports: [
     BrowserModule,

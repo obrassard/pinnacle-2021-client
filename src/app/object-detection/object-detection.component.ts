@@ -15,6 +15,9 @@ export class ObjectDetectionComponent implements AfterViewInit{
   WIDTH = 1500;
   HEIGHT = 500;
 
+  addedSuccess?: String = "banana";
+  addedError?: String;
+
   @ViewChild("video")
   public video!: ElementRef;
 
@@ -110,6 +113,7 @@ export class ObjectDetectionComponent implements AfterViewInit{
 
   sumbitItem(item:String){
     console.log(item);
+    this.addedSuccess = item;
   }
 
   
