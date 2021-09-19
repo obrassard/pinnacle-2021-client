@@ -11,26 +11,15 @@ import { ActivatedRoute } from '@angular/router';
   providedIn: 'root'
 })
 export class ItemService extends HttpService {
-  private inventoryId: number;
-  constructor(http: HttpClient, private userService: UserService, route:ActivatedRoute) {
+  
+  constructor(http: HttpClient, private userService: UserService) {
       super(http);
-
-      this.inventoryId = route.snapshot.params.id
   }
 
-  addNewItem(item: Item): Observable<ItemInventory> {
-    return this.post({ item }, `inventories​/${this.inventoryId}​/items`)
-    .pipe(map((res: any) => ({
-        itemId: res.itemId,
-        title: res.title,
-        image: res.image,
-        inventory: res.inventory
-      }
-    )))
+  addNewItem(id:string, item: Item): Observable<ItemInventory> {
+    return this.post({ item }, `inventories​/${id}​/items`)
   };
 }
-
-
 
 export interface Item {
   upc?: string;
