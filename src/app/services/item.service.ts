@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpStatusCode } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
 import { UserService } from './user.service';
@@ -16,6 +16,10 @@ export class ItemService extends HttpService {
     addNewItem(id: string, item: Item): Observable<ItemInventory> {
         return this.post(item, `inventories/${id}/items`)
     };
+
+    modifyQuantityItem(quantity:number,invItemID: string): Observable<any> {
+      return this.patch({quantity: quantity}, `items/${invItemID}`)
+  };
 }
 
 export interface Item {
@@ -25,14 +29,7 @@ export interface Item {
     expiration?: Date
 }
 export interface ItemInventory {
-    itemId: string,
+    id: string,
     title: string,
-    image: string,
-    inventory: ItemInstance[]
-}
-export interface ItemInstance {
-    invItemID: string,
-    quantity: 0,
-    addedAt: Date,
-    expiration?: Date
+    image: string
 }
