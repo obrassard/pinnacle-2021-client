@@ -1,4 +1,5 @@
 <app-nav-wrapper>
+    <a class="mb-4 block text-primary" routerLink="/inventories/{{inventoryId}}">Back to Inventory</a>
     <h1>{{isAdding ? 'Add items' : 'Remove items'}}</h1>
     <p class="text-gray-500 text-sm my-4">Scan items you wish to {{isAdding ? 'add': 'remove'}}. If the item has a code
         bar, scan it. If it
