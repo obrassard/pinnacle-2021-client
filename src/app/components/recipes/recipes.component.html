@@ -13,5 +13,8 @@
         <app-recipe-item *ngFor="let recipe of recipes;"
         [recipe]="recipe"
         ></app-recipe-item>
+        <div *ngIf="!recipes.length">
+            Select ingredients to receive awesome recipes!
+        </div>
     </div>
 </app-nav-wrapper>
