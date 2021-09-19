@@ -34,6 +34,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
     addedSuccess?: String;
     addedError?: String;
+    quantity:number = 1;
     isAdding: boolean;
 
     private barcodePicker?: ScanditSDK.BarcodePicker;
@@ -46,7 +47,10 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
     error: any;
     lastPrediction?: string;
+    lastAddedItem?: ItemInventory
     loading = true;
+    stream?: MediaStream;
+    selectedIndex?: number;
 
     async ngAfterViewInit() {
         await this.setupDevices();
@@ -92,13 +96,13 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
     async setupDevices() {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: true
+                this.stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "environment" }
                 });
-                this.HEIGHT = stream.getVideoTracks()[0].getSettings().height!;
-                this.WIDTH = stream.getVideoTracks()[0].getSettings().width!;
-                if (stream) {
-                    this.video.nativeElement.srcObject = stream;
+                this.HEIGHT = this.stream.getVideoTracks()[0].getSettings().height!;
+                this.WIDTH = this.stream.getVideoTracks()[0].getSettings().width!;
+                if (this.stream) {
+                    this.video.nativeElement.srcObject = this.stream;
                     this.video.nativeElement.play();
                     this.error = null;
                 } else {
@@ -150,10 +154,14 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
             const width = prediction.bbox[2];
             const height = prediction.bbox[3];  // Bounding box
 
-            //miror the position
-            //x = this.WIDTH - x-width;
-
-
+            const facingMode:any = this.stream?.getVideoTracks()[0].getCapabilities().facingMode;
+            if(facingMode != undefined){
+                if (facingMode[0] as string != 'environment'){
+                    //miror the position
+                    x = this.WIDTH - x-width;
+                }
+            }
+            
             ctx.strokeStyle = "#00FFFF";
             ctx.lineWidth = 2;
             ctx.strokeRect(x, y, width, height);  // Label background
@@ -176,11 +184,12 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
     }
 
     sumbitItem(itemId: string, isUpc: boolean) {
-
+        this.quantity = 1
+        this.selectedIndex = undefined;
         let item: Item = {
             upc: isUpc ? itemId : undefined,
             title: !isUpc ? itemId : undefined,
-            quantity: 1,
+            quantity: this.quantity,
         }
         console.log(item)
         this.itemService.addNewItem(this.inventoryId, item).subscribe(itemInv => {
@@ -204,7 +213,18 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
     }
 
     displayNotification(itemInv: ItemInventory) {
+        this.lastAddedItem = itemInv;
         this.addedSuccess = itemInv.title;
+    }
+    modifyQuantity(newQuantity:number){
+        if(this.selectedIndex != newQuantity){
+            this.selectedIndex = newQuantity;
+            
+            this.quantity = newQuantity
+            this.itemService.modifyQuantityItem(newQuantity,this.lastAddedItem?.id as string).subscribe(() => {
+                console.log("modified quantity to" + this.quantity)
+            });
+        }
     }
 }
 

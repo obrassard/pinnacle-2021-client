@@ -24,41 +24,10 @@
                 <div *ngIf="isAdding">
                     <p>Modify the quantity of the item :</p>
                     <div class="grid grid-cols-8 gap-2 w-full">
-                        <div>
-                            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3">
-                                2
-                            </button>
-                        </div>
-                        <div>
-                            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3">
-                                3
-                            </button>
-                        </div>
-                        <div>
-                            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3">
-                                4
-                            </button>
-                        </div>
-                        <div>
-                            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3">
-                                5
-                            </button>
-                        </div>
-                        <div>
-                            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3">
-                                6
-                            </button>
-                        </div>
-                        <div>
-                            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3">
-                                7
-                            </button>
-                        </div>
-                        <div>
-                            <button class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3">
-                                8
-                            </button>
-                        </div>
+                        <button *ngFor="let i of [2,3,4,5,6,7,8]" (click)="modifyQuantity(i)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3"
+                            [class.bg-primary]="selectedIndex === i">
+                            {{i}}
+                        </button>
                     </div>
                 </div>
             </div>

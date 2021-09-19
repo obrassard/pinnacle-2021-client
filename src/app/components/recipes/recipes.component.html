@@ -1,10 +1,11 @@
 <app-nav-wrapper>
     <div class="options">
-        <select [ngModel]="selectedInventory" (ngModelChange)="onInventoryChange($event)">
+        <select [ngModel]="'all'" (ngModelChange)="onInventoryChange($event)">
+            <option [value]="'all'" selected>All</option>
             <option *ngFor="let inv of inventories" [value]="inv.id">{{inv.title}}</option>
         </select>
         <div *ngFor="let item of items" class="checkbox-item bg-primary">
-            <input type="checkbox" value="{{item.itemId}}"  name="{{item.title}}" (change)="onCheckboxClick(item.itemId, $event)" checked>
+            <input type="checkbox" value="{{item.itemId}}"  name="{{item.title}}" (change)="onCheckboxClick(item.itemId, $event)">
             <label for="{{item.title}}">{{item.title}}</label>
         </div>
     </div>
