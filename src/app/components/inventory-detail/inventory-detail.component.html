@@ -1,8 +1,5 @@
 <app-nav-wrapper>
-    <ng-lottie *ngIf="!inventory"
-        [options]="animations.loading"
-        width="200px" height="200px"
-        containerClass="mx-auto">
+    <ng-lottie *ngIf="!inventory" [options]="animations.loading" width="200px" height="200px" containerClass="mx-auto">
     </ng-lottie>
     <ng-container *ngIf="inventory as i">
         <div class="flex flex-row justify-between">
@@ -10,9 +7,16 @@
                 <i class="uil uil-box text-2xl text-primary"></i>
                 <span>Inventory</span>
             </p>
-            <a routerLink="/inventories/{{inventoryId}}/add" class="bg-primary hover:bg-primary-dark text-onPrimary rounded-full relative w-10 h-10 ">
-                <i-feather name="plus" class="rounded-full absolute center"></i-feather>
-            </a>
+            <div class="flex flex-row space-x-2">
+                <a routerLink="/inventories/{{inventoryId}}/add"
+                    class="bg-primary hover:bg-primary-dark text-onPrimary rounded-full relative w-10 h-10 ">
+                    <i-feather name="plus" class="rounded-full absolute center"></i-feather>
+                </a>
+                <a routerLink="/inventories/{{inventoryId}}/remove"
+                    class="bg-primary hover:bg-primary-dark text-onPrimary rounded-full relative w-10 h-10 ">
+                    <i-feather name="minus" class="rounded-full absolute center"></i-feather>
+                </a>
+            </div>
         </div>
 
         <h1>{{i.title}}</h1>
@@ -24,7 +28,8 @@
             </tr>
             <tr class="hoverable" *ngFor="let item of i.items">
                 <td class="flex flex-row items-center space-x-3">
-                    <img [src]="item.image || '/assets/placeholder.png'" class="h-12 w-12 object-cover object-center rounded-md">
+                    <img [src]="item.image || '/assets/placeholder.png'"
+                        class="h-12 w-12 object-cover object-center rounded-md">
                     <div class="flex flex-col">
                         <span class="capitalize text-sm md:text-base">{{item.title}}</span>
                         <div class="flex md:items-center flex-col md:flex-row">
@@ -43,6 +48,8 @@
                 <td class="text-sm md:text-base">{{item.quantity}}</td>
             </tr>
         </table>
-        <a routerLink="/inventories/{{inventoryId}}/add" class="button-primary mt-6 inline-block">Add new items</a>
+        <a routerLink="/inventories/{{inventoryId}}/add" class="button-primary mt-6 inline-block m-2">Add new items</a>
+        <a routerLink="/inventories/{{inventoryId}}/remove" class="button-primary mt-6 inline-block m-2">Remove
+            items</a>
     </ng-container>
 </app-nav-wrapper>

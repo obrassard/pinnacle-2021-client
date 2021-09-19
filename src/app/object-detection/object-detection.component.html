@@ -1,31 +1,34 @@
 <app-nav-wrapper>
-    <h1>Add items</h1>
-    <p class="text-gray-500 text-sm my-4">Scan items you wish to add. If the item has a code bar, scan it. If it doesn't, we'll
+    <h1>{{isAdding ? 'Add items' : 'Remove items'}}</h1>
+    <p class="text-gray-500 text-sm my-4">Scan items you wish to {{isAdding ? 'add': 'remove'}}. If the item has a code
+        bar, scan it. If it
+        doesn't, we'll
         detect what it is for you. </p>
     <div id="container">
         <video #video id="video" [width]="WIDTH" [height]="HEIGHT" autoplay hidden class="w-full z-0"></video>
         <canvas #canvas id="canvas" [width]="WIDTH" [height]="HEIGHT" class="w-full z-10"></canvas>
         <div id="scandit-barcode-picker"></div>
     </div>
-    
+
     <div class="w-full flex items-center" *ngIf="loading">
         <i-feather name="loader" class="animate-spin-slow text-primary my-8 mx-auto"></i-feather>
     </div>
 
     <br>
-    <div class="border-t-4 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert"
-        *ngIf="addedSuccess">
+    <div class="border-t-4 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert" *ngIf="addedSuccess">
         <div class="flex">
             <div>
-                <p class="font-bold">Item added</p>
-                <p>Added {{quantity}} {{addedSuccess}} to the inventory</p>
+                <p class="font-bold">Item {{ isAdding ? 'added': 'removed' }}</p>
+                <p>{{isAdding ? 'Added' : 'Removed'}} 1 {{addedSuccess}} to the inventory</p>
                 <br>
-                <p>Modify the quantity of the item :</p>
-                <div class="grid grid-cols-8 gap-2 w-full">
-                    <button *ngFor="let i of [2,3,4,5,6,7,8]" (click)="modifyQuantity(i)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3"
-                    [class.bg-primary]="selectedIndex === i">
-                        {{i}}
-                    </button>
+                <div *ngIf="isAdding">
+                    <p>Modify the quantity of the item :</p>
+                    <div class="grid grid-cols-8 gap-2 w-full">
+                        <button *ngFor="let i of [2,3,4,5,6,7,8]" (click)="modifyQuantity(i)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3"
+                            [class.bg-primary]="selectedIndex === i">
+                            {{i}}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

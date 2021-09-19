@@ -20,6 +20,10 @@ export class ItemService extends HttpService {
     modifyQuantityItem(quantity:number,invItemID: string): Observable<any> {
       return this.patch({quantity: quantity}, `items/${invItemID}`)
   };
+
+    removeItem(id: string, item: Item): Observable<any> {
+        return this.http.patch(this.urlFor(`inventories/${id}/items`), item);
+    };
 }
 
 export interface Item {
