@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-// const apiHost: string = 'https://pinnacle-2021-api.azurewebsites.net/api';
-const apiHost: string = 'https://localhost:44363/api';
+const apiHost: string = 'https://pinnacle-2021-api.azurewebsites.net/api';
+// const apiHost: string = 'https://localhost:44363/api';
 
 export abstract class HttpService {
     private defaultHeaders = new HttpHeaders({
