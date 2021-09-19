@@ -147,9 +147,9 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
             const width = prediction.bbox[2];
             const height = prediction.bbox[3];  // Bounding box
 
-            const facingMode:any = this.stream?.getVideoTracks()[0].getCapabilities();
+            const facingMode:any = this.stream?.getVideoTracks()[0].getCapabilities().facingMode;
             if(facingMode != undefined){
-                if (facingMode[0] as string== 'environment'){
+                if (facingMode[0] as string != 'environment'){
                     //miror the position
                     x = this.WIDTH - x-width;
                 }
