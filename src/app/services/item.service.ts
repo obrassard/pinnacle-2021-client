@@ -16,6 +16,10 @@ export class ItemService extends HttpService {
     addNewItem(id: string, item: Item): Observable<ItemInventory> {
         return this.post(item, `inventories/${id}/items`)
     };
+
+    getItemDetail(inventoryId: string, itemId: string): Observable<ItemInventoryDetail> {
+        return this.get(`inventories/${inventoryId}/items/${itemId}`);
+    }
 }
 
 export interface Item {
@@ -30,9 +34,18 @@ export interface ItemInventory {
     image: string,
     inventory: ItemInstance[]
 }
+
 export interface ItemInstance {
     invItemID: string,
-    quantity: 0,
-    addedAt: Date,
-    expiration?: Date
+    quantity: number,
+    addedAt: string,
+    expiration?: string
+    expiredSoon: boolean
+}
+
+export interface ItemInventoryDetail {
+    itemId: string,
+    title: string,
+    image: string,
+    inventory: ItemInstance[]
 }

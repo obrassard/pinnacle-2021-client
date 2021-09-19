@@ -21,6 +21,7 @@ import { ModalContentComponent } from './components/modal-content/modal-content.
 import { InventoryCreationModalComponent } from './components/inventory-creation-modal/inventory-creation-modal.component';
 import { ToastComponent } from './components/toast/toast.component';
 import { InventoryDetailComponent } from './components/inventory-detail/inventory-detail.component';
+import { ItemDetailComponent } from './components/item-detail/item-detail.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { InventoryDetailComponent } from './components/inventory-detail/inventor
     InventoryCreationModalComponent,
     ToastComponent,
     InventoryDetailComponent,
+    ItemDetailComponent,
   ],
   imports: [
     BrowserModule,

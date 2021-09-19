@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { InventoryDetails, InventoryService } from '../../services/inventory.service';
+import { InventoryDetails, InventoryItem, InventoryService } from '../../services/inventory.service';
 import { LottieService } from '../../services/lottie.service';
+import { ItemDetailComponent } from '../item-detail/item-detail.component';
+import { ItemInstance } from '../../services/item.service';
 
 @Component({
     selector: 'app-inventory-detail',
@@ -9,6 +11,8 @@ import { LottieService } from '../../services/lottie.service';
     styleUrls: ['./inventory-detail.component.scss']
 })
 export class InventoryDetailComponent implements OnInit {
+
+    @ViewChild(ItemDetailComponent) itemDetailComponent?: ItemDetailComponent;
 
     inventory?: InventoryDetails;
     inventoryId?: string;
@@ -20,5 +24,9 @@ export class InventoryDetailComponent implements OnInit {
         this.inventoryService.getInventoryDetails(this.inventoryId).subscribe(data => {
             this.inventory = data;
         });
+    }
+
+    click(item: InventoryItem) {
+        this.itemDetailComponent?.open(item.itemId);
     }
 }

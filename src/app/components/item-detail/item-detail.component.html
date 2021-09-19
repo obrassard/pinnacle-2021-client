@@ -1,0 +1,39 @@
+
+<div class="bg-black absolute bg-opacity-60 h-full overflow-scroll w-full top-0 z-50" *ngIf="opened">
+    <div class="w-full min-h-full p-8 py-10 bg-white rounded-t-lg shadow-sm mt-24 relative">
+        <div class="absolute right-4 top-4">
+            <button (click)="close()" class="bg-gray-200 hover:bg-gray-300 rounded-full relative w-6 h-6">
+                <i-feather name="x" class="x rounded-full absolute center"></i-feather>
+            </button>
+        </div>
+
+        <ng-lottie *ngIf="!itemDetail" [options]="animations.loading" width="200px" height="200px"
+        containerClass="mx-auto"></ng-lottie>
+
+        <ng-container *ngIf="itemDetail as item">
+            <img [src]="item.image" class="max-w-xs w-full mx-auto my-4 rounded"/>
+            <h2 class="capitalize">{{item.title}}</h2>
+            <hr class="mx-8 my-4">
+            <h4 class="mt-5">Purchases</h4>
+            <div *ngFor="let instance of item.inventory">
+                <div class="flex flex-col border border-stroke rounded-md shadow p-4 mt-4">
+                    <div class="flex flex-col">
+                        <strong class="mb-1 font-heading text-primary">Date</strong>
+                        <span>{{instance.addedAt | date:'short'}}</span>
+                        <hr class="my-2">
+                        <strong class="mb-1 font-heading text-primary">Remaining quantity</strong>
+                        <span>{{instance.quantity}}</span>
+                        <div class="flex flex-col" *ngIf="instance.expiration">
+                            <hr class="my-2">
+                            <strong class="mb-1">Expiration Date</strong>
+                            <span>{{instance.expiration | date:'short'}}</span>
+                            <div class="text-red-500" *ngIf="instance.expiredSoon">
+                                &bull; <span>Expiring soon</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
