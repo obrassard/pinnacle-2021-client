@@ -1,19 +1,33 @@
 <app-nav-wrapper>
     <div class="options">
-        <select [ngModel]="'all'" (ngModelChange)="onInventoryChange($event)">
-            <option [value]="'all'" selected>All</option>
-            <option *ngFor="let inv of inventories" [value]="inv.id">{{inv.title}}</option>
-        </select>
-        <div *ngFor="let item of items" class="checkbox-item bg-primary">
-            <input type="checkbox" value="{{item.itemId}}"  name="{{item.title}}" (change)="onCheckboxClick(item.itemId, $event)">
-            <label for="{{item.title}}">{{item.title}}</label>
+        <div class="border border-stroke w-full mb-4">
+            <div class="p-4 bg-white w-full font-medium cursor-pointer flex flex-row justify-between items-center" (click)="filtersOpened = !filtersOpened">
+                <span>Filter by ingredients</span>
+                <i-feather [name]="filtersOpened ? 'chevron-up': 'chevron-down'"></i-feather>
+            </div>
+            <div class="border-t border-stroke" *ngIf="filtersOpened">
+                <select [ngModel]="'all'" class="w-full border-none border-stroke" (ngModelChange)="onInventoryChange($event)">
+                    <option [value]="'all'" selected>All Inventories</option>
+                    <option *ngFor="let inv of inventories" [value]="inv.id">{{inv.title}}</option>
+                </select>
+
+                <table class="table border-t border-stroke">
+                    <tr class="hoverable" *ngFor="let item of items" (click)="onCheckboxClick(item.itemId)">
+                        <td class="flex flex-row items-center space-x-3">
+                            <img [src]="isSelected(item.itemId) ? '/assets/check.svg' : (item.image || '/assets/placeholder.png')"
+                                class="h-10 w-10 object-cover object-center rounded-md">
+                            <span class="capitalize text-sm md:text-base">{{item.title}}</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
-    <div class="recipe-container">
-        <app-recipe-item *ngFor="let recipe of recipes;"
-        [recipe]="recipe"
-        ></app-recipe-item>
-        <div *ngIf="!recipes.length">
+
+    <div class="mx-2">
+        <h3 class="mb-3 mt-8">Featured Recipes</h3>
+        <app-recipe-item *ngFor="let recipe of recipes;" [recipe]="recipe"></app-recipe-item>
+        <div *ngIf="!recipes.length" class="text-gray-500">
             Select ingredients to receive awesome recipes!
         </div>
     </div>

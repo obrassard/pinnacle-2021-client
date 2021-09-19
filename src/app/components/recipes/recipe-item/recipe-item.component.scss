@@ -1,35 +1,12 @@
 
 
 .recipe-item-container {
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    display: flex;
-    margin: 0.5em;
     transform: translateX(-200%);
     animation: slide-in 0.5s forwards;
-    position: relative;
-    min-height: 10em;
-
-    &:hover {
-        background: #f2f2f2;
-    }
-
-    img {
-        max-width: 25%;
-    }
-
-    .calories {
-        position: absolute;
-        bottom: 5px;
-        right: 5px;
-    }
-
-    .recipe-content {
-        padding: 0.5em;
-    }
 }
 
 @keyframes slide-in {
-    100% { 
-        transform: translateX(0%); 
+    100% {
+        transform: translateX(0%);
     }
 }
