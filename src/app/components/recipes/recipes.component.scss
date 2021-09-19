@@ -13,3 +13,26 @@
     }
 }
 
+.options {
+    display: flex;
+    gap: 0.25em;
+    max-width: 90%;
+    margin: 0 auto 5em;
+
+    .checkbox-item {
+        padding: 0.25em;
+        display: flex;
+        align-items: center;
+
+        input {
+            margin-left: 0.25em;
+        }
+
+        label {
+            padding: 0 1em;
+            color: white;
+        }
+    }
+
+}
+
