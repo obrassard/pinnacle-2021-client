@@ -32,7 +32,7 @@ export class RecipesComponent implements OnInit {
 
   onInventoryChange(event: string) {
     console.log(typeof(event));
-    this.inventoryService.getInventoryItems(event).subscribe(inv => {
+    this.inventoryService.getInventoryDetails(event).subscribe(inv => {
       this.items = inv.items;
       this.searchString = this.items.map(item => item.title).join(" ");
       this.searchForRecipes();
