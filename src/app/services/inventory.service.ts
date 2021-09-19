@@ -28,6 +28,10 @@ export class InventoryService extends HttpService {
             userId => this.getAll<Inventory>(`users/${userId}/inventories`)
         ));
     }
+
+    getInventoryDetails(inventoryId: string): Observable<InventoryDetails> {
+        return this.get(`inventories/${inventoryId}`);
+    }
 }
 
 export interface Inventory {
@@ -35,3 +39,18 @@ export interface Inventory {
     title: string;
     countOfItems: number;
 }
+
+export interface InventoryDetails {
+    title: string,
+    items: InventoryItem[]
+}
+
+export interface InventoryItem {
+    itemId: string,
+    title: string,
+    image: string,
+    count: number,
+    quantity: number,
+    expiredSoon: boolean
+}
+

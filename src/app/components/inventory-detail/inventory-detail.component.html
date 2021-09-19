@@ -1,0 +1,35 @@
+<app-nav-wrapper>
+    <ng-lottie *ngIf="!inventory"
+        [options]="animations.loading"
+        width="200px" height="200px"
+        containerClass="mx-auto">
+    </ng-lottie>
+    <ng-container *ngIf="inventory as i">
+        <div class="flex flex-row justify-between">
+            <p class="flex items-center space-x-1">
+                <i class="uil uil-box text-2xl text-primary"></i>
+                <span>Inventory</span>
+            </p>
+            <a routerLink="/inventories/{{inventoryId}}/add" class="bg-primary hover:bg-primary-dark text-onPrimary rounded-full relative w-10 h-10 ">
+                <i-feather name="plus" class="rounded-full absolute center"></i-feather>
+            </a>
+        </div>
+
+        <h1>{{i.title}}</h1>
+
+        <table class="table mt-4">
+            <tr>
+                <th>Product</th>
+                <th>Qty</th>
+            </tr>
+            <tr class="hoverable" *ngFor="let item of i.items">
+                <td class="flex flex-row items-center space-x-3">
+                    <img [src]="item.image || '/assets/placeholder.png'" class="h-12 w-12 object-cover object-center rounded-md">
+                    <span class="capitalize">{{item.title}}</span>
+                </td>
+                <td>{{item.count}}</td>
+            </tr>
+        </table>
+        <a routerLink="/inventories/{{inventoryId}}/add" class="button-primary mt-6 inline-block">Add new items</a>
+    </ng-container>
+</app-nav-wrapper>

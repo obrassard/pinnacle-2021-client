@@ -5,11 +5,13 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthGuard } from './guards/auth.guard';
 import { InventoryComponent } from './components/inventory/inventory.component';
 import { RecipesComponent } from './components/recipes/recipes.component';
+import { InventoryDetailComponent } from './components/inventory-detail/inventory-detail.component';
 
 const routes: Routes = [
     { path: "login", component: LoginComponent },
-    { path: "scan", canActivate: [AuthGuard], component: ObjectDetectionComponent },
+    { path: "inventories/:id/add", canActivate: [AuthGuard], component: ObjectDetectionComponent },
     { path: "", canActivate: [AuthGuard], component: InventoryComponent },
+    { path: "inventories/:id", canActivate: [AuthGuard], component: InventoryDetailComponent },
     { path: "recipe", canActivate: [AuthGuard], component: RecipesComponent },
 ];
 

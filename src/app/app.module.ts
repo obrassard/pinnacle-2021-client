@@ -20,6 +20,7 @@ import player from 'lottie-web';
 import { ModalContentComponent } from './components/modal-content/modal-content.component';
 import { InventoryCreationModalComponent } from './components/inventory-creation-modal/inventory-creation-modal.component';
 import { ToastComponent } from './components/toast/toast.component';
+import { InventoryDetailComponent } from './components/inventory-detail/inventory-detail.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,7 @@ import { ToastComponent } from './components/toast/toast.component';
     ModalContentComponent,
     InventoryCreationModalComponent,
     ToastComponent,
-    ModalContentComponent
+    InventoryDetailComponent,
   ],
   imports: [
     BrowserModule,
