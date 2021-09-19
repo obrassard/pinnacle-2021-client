@@ -21,11 +21,13 @@ import { environment } from '../../environments/environment.prod';
     providers: [UPCapiService]
 })
 export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
+
     private inventoryId: string;
 
     constructor(private itemService: ItemService,
         route: ActivatedRoute, public animations: LottieService) {
         this.inventoryId = route.snapshot.params.id
+        this.isAdding = route.snapshot.params.operation === 'add'
     }
 
     WIDTH = 1500;
@@ -33,6 +35,8 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
     addedSuccess?: String;
     addedError?: String;
+    quantity:number = 1;
+    isAdding: boolean;
 
     private barcodePicker?: ScanditSDK.BarcodePicker;
 
@@ -44,7 +48,10 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
     error: any;
     lastPrediction?: string;
+    lastAddedItem?: ItemInventory
     loading = true;
+    stream?: MediaStream;
+    selectedIndex?: number;
 
     async ngAfterViewInit() {
         await this.setupDevices();
@@ -62,14 +69,12 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
                 playSoundOnScan: true,
                 vibrateOnScan: true,
                 hideLogo: true,
+                scanSettings: new ScanSettings({
+                    enabledSymbologies: [Barcode.Symbology.UPCA, Barcode.Symbology.EAN13],
+                    codeDuplicateFilter: 1000
+                })
             }).then((barcodePicker) => {
                 this.barcodePicker = barcodePicker;
-                const scanSettings = new ScanSettings({
-                    enabledSymbologies: [Barcode.Symbology.UPCA, Barcode.Symbology.EAN13],
-                    codeDuplicateFilter: 1000,
-                });
-
-                barcodePicker.applyScanSettings(scanSettings);
                 barcodePicker.on("scan", (s) => this.onScan(s));
             });
         });
@@ -83,19 +88,22 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
         result.barcodes.forEach(barcode => {
             console.log(barcode.data);
             this.lastPrediction = undefined;
-            this.sumbitItem(barcode.data, true);
+            if (this.isAdding)
+                this.sumbitItem(barcode.data, true);
+            else
+                this.removeItem(barcode.data, true)
         })
     }
     async setupDevices() {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: true
+                this.stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "environment" }
                 });
-                this.HEIGHT = stream.getVideoTracks()[0].getSettings().height!;
-                this.WIDTH = stream.getVideoTracks()[0].getSettings().width!;
-                if (stream) {
-                    this.video.nativeElement.srcObject = stream;
+                this.HEIGHT = this.stream.getVideoTracks()[0].getSettings().height!;
+                this.WIDTH = this.stream.getVideoTracks()[0].getSettings().width!;
+                if (this.stream) {
+                    this.video.nativeElement.srcObject = this.stream;
                     this.video.nativeElement.play();
                     this.error = null;
                 } else {
@@ -147,10 +155,14 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
             const width = prediction.bbox[2];
             const height = prediction.bbox[3];  // Bounding box
 
-            //miror the position
-            //x = this.WIDTH - x-width;
-
-
+            const facingMode:any = this.stream?.getVideoTracks()[0].getCapabilities().facingMode;
+            if(facingMode != undefined){
+                if (facingMode[0] as string != 'environment'){
+                    //miror the position
+                    x = this.WIDTH - x-width;
+                }
+            }
+            
             ctx.strokeStyle = "#00FFFF";
             ctx.lineWidth = 2;
             ctx.strokeRect(x, y, width, height);  // Label background
@@ -164,17 +176,21 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
             if (this.lastPrediction != prediction.class) {
                 this.lastPrediction = prediction.class;
-                this.sumbitItem(prediction.class, false);
+                if (this.isAdding)
+                    this.sumbitItem(prediction.class, false);
+                else
+                    this.removeItem(prediction.class, false);
             }
         });
     }
 
     sumbitItem(itemId: string, isUpc: boolean) {
-
+        this.quantity = 1
+        this.selectedIndex = undefined;
         let item: Item = {
             upc: isUpc ? itemId : undefined,
             title: !isUpc ? itemId : undefined,
-            quantity: 1,
+            quantity: this.quantity,
         }
         console.log(item)
         this.itemService.addNewItem(this.inventoryId, item).subscribe(itemInv => {
@@ -182,8 +198,34 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
             this.displayNotification(itemInv);
         });
     }
+
+    removeItem(itemId: string, isUpc: boolean) {
+
+        let item: Item = {
+            upc: isUpc ? itemId : undefined,
+            title: !isUpc ? itemId : undefined,
+            quantity: 1
+        }
+        console.log(item)
+        this.itemService.removeItem(this.inventoryId, item).subscribe(itemInv => {
+            console.log(itemInv);
+            this.displayNotification(itemInv);
+        });
+    }
+
     displayNotification(itemInv: ItemInventory) {
+        this.lastAddedItem = itemInv;
         this.addedSuccess = itemInv.title;
+    }
+    modifyQuantity(newQuantity:number){
+        if(this.selectedIndex != newQuantity){
+            this.selectedIndex = newQuantity;
+            
+            this.quantity = newQuantity
+            this.itemService.modifyQuantityItem(newQuantity,this.lastAddedItem?.id as string).subscribe(() => {
+                console.log("modified quantity to" + this.quantity)
+            });
+        }
     }
 }
 

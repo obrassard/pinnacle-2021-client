@@ -9,7 +9,7 @@ import { InventoryDetailComponent } from './components/inventory-detail/inventor
 
 const routes: Routes = [
     { path: "login", component: LoginComponent },
-    { path: "inventories/:id/add", canActivate: [AuthGuard], component: ObjectDetectionComponent },
+    { path: "inventories/:id/:operation", canActivate: [AuthGuard], component: ObjectDetectionComponent },
     { path: "", canActivate: [AuthGuard], component: InventoryComponent },
     { path: "inventories/:id", canActivate: [AuthGuard], component: InventoryDetailComponent },
     { path: "recipe", canActivate: [AuthGuard], component: RecipesComponent },

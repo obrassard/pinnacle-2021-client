@@ -62,11 +62,11 @@ export class RecipesComponent implements OnInit {
       this.uncheckedItems.splice(index, 1);
     }
 
-    if (!event.target.checked) {
+    if (event.target.checked) {
       this.uncheckedItems.push(itemId);
     }
 
-    this.searchString = this.items.map(item => this.uncheckedItems.includes(item.itemId) ? "" : item.title).join(" ");
+    this.searchString = this.items.map(item => this.uncheckedItems.includes(item.itemId) ? item.title : "").join(" ");
     this.searchForRecipes();
   }
 
