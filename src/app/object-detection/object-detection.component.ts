@@ -35,7 +35,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
     addedSuccess?: String;
     addedError?: String;
-    quantity:number = 1;
+    quantity: number = 1;
     isAdding: boolean;
 
     private barcodePicker?: ScanditSDK.BarcodePicker;
@@ -155,14 +155,14 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
             const width = prediction.bbox[2];
             const height = prediction.bbox[3];  // Bounding box
 
-            const facingMode:any = this.stream?.getVideoTracks()[0].getCapabilities().facingMode;
-            if(facingMode != undefined){
-                if (facingMode[0] as string != 'environment'){
+            const facingMode: any = this.stream?.getVideoTracks()[0].getCapabilities().facingMode;
+            if (facingMode != undefined) {
+                if (facingMode[0] as string != 'environment') {
                     //miror the position
-                    x = this.WIDTH - x-width;
+                    x = this.WIDTH - x - width;
                 }
             }
-            
+
             ctx.strokeStyle = "#00FFFF";
             ctx.lineWidth = 2;
             ctx.strokeRect(x, y, width, height);  // Label background
@@ -176,6 +176,11 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
             if (this.lastPrediction != prediction.class) {
                 this.lastPrediction = prediction.class;
+
+                var sound = new Audio("/assets/scan_sound.mp3");
+                console.log(sound);
+                sound.play();
+
                 if (this.isAdding)
                     this.sumbitItem(prediction.class, false);
                 else
@@ -217,12 +222,12 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
         this.lastAddedItem = itemInv;
         this.addedSuccess = itemInv.title;
     }
-    modifyQuantity(newQuantity:number){
-        if(this.selectedIndex != newQuantity){
+    modifyQuantity(newQuantity: number) {
+        if (this.selectedIndex != newQuantity) {
             this.selectedIndex = newQuantity;
-            
+
             this.quantity = newQuantity
-            this.itemService.modifyQuantityItem(newQuantity,this.lastAddedItem?.id as string).subscribe(() => {
+            this.itemService.modifyQuantityItem(newQuantity, this.lastAddedItem?.id as string).subscribe(() => {
                 console.log("modified quantity to" + this.quantity)
             });
         }
