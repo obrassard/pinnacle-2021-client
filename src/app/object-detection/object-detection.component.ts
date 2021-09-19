@@ -133,7 +133,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
         ctx.font = font;
         ctx.textBaseline = "top";
 
-        const acceptedPrediction: String[] = ["cake", "donut", "pizza", "hot dog", "carrot", "broccoli", "orange", "sandwich", "apple", "banana"];
+        const acceptedPrediction: String[] = ["cake", "donut", "pizza", "carrot", "broccoli", "orange", "sandwich", "apple", "banana"];
 
         //ctx.drawImage(videoElem,0, 0,videoElem.width,videoElem.height);
         predictions.forEach(prediction => {
