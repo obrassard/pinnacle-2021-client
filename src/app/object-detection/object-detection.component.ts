@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@ang
 import * as ScanditSDK from "scandit-sdk";
 import { Barcode, ScanResult, ScanSettings } from "scandit-sdk";
 import { UPCapiService } from './UPCapi/upcapi.service';
+import { ItemService, ItemInventory, Item } from '../services/item.service';
 
 //import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-webgl';
@@ -9,8 +10,8 @@ import '@tensorflow/tfjs-backend-cpu';
 
 //import COCO-SSD model as cocoSSD
 import * as cocoSSD from '@tensorflow-models/coco-ssd';
-import { environment } from 'src/environments/environment';
 import { LottieService } from '../services/lottie.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -19,7 +20,13 @@ import { LottieService } from '../services/lottie.service';
     providers: [UPCapiService]
 })
 export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
-    constructor(private upcService: UPCapiService, public animations: LottieService) { }
+    private inventoryId: string;
+
+    constructor(private itemService: ItemService,
+        route: ActivatedRoute, public animations: LottieService) {
+        this.inventoryId = route.snapshot.params.id
+    }
+
     WIDTH = 1500;
     HEIGHT = 500;
 
@@ -35,16 +42,19 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
     public canvas!: ElementRef;
 
     error: any;
+    lastPrediction?: string;
     loading = true;
-    lastPrediction: String | undefined;
 
     async ngAfterViewInit() {
-        this.setupDevices();
+        await this.setupDevices();
+        this.seUpBarCodeScanner();
         this.predictWithCocoModel().then(() => {
             this.loading = false;
         });
+    }
 
-        ScanditSDK.configure(environment.detection, {
+    seUpBarCodeScanner(): void {
+        ScanditSDK.configure("AeNAzGAQQZ7rGTtUBzWc5yIXcjRVLvW9BEmBURVia9qiTMSWIQ3kUNduBr2NZuewkHl9tY8HrUZBaVZOGDDGpng0DGOmWZGOM3fagS411ISPQZ/+hiQ2MO9Ezxo+De4H9kjVq98+xZ2EDmG1nQeqxfVg91JIZ82o1PWEiN5pAwwbfHnmvtx3bczFmTkMLo/qrAWkDH7Q4DF156t90L3RuAUagz2L+KIRv25hUB253j0WZMuiq/6jKcD0xryg/G3dmnTEWu0Nb2sQCcF8Fs4RxkJ7V3BBStVeU4XBhS3xC+eanHaImfrx51MNrMTI1HjKlclPcNyLHSNxrVMmyGq3k3v4HdZlvIokh5BAdNSyYV2gvmvmS5gx7Ys+v5xlhhrPRm/HASYtyTKOwaWxvw7LCZiELLOgsbrRqBQzJ7SKvuj6uzpaw9VnPngelQ9vIV1Dg+tZuOxcSX1l1cvDDs75WeNAZA/cmTWyTzbbXzEA9+hRVVNkvGnFnlxkuddWIv+Ip1A8lnfVsUmXkRA2R5ERdnI4rtZR4kMBxNfYuir58lHoKP1uk4NuXOPDP3GBSlP+EdWWsVqWyB3DOeWoNwUzQNOb0rp1trUCq747cTbyxqw4FkzrN+dZpKUxgySdUt0BmRAH6+ola0/XKI10zioh3EU3Jar8Z0KxhvmT4Clni6qbFGJHeft0ulz4wsjpR+lPYkFZRcwaEnim+oLnBDR/JdgTe2S0PteyqLrLmlCnlW6pncydaIFBjKtd/ikv0PdJvwe5eT46PCLRWWQi2FtH/SaHihyBAS+rEmmLmQLvSQ==", {
             engineLocation: "https://cdn.jsdelivr.net/npm/scandit-sdk/build",
         }).then(() => {
             ScanditSDK.BarcodePicker.create(document.getElementById("scandit-barcode-picker")!, {
@@ -71,14 +81,13 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
     private onScan(result: ScanResult) {
         result.barcodes.forEach(barcode => {
             console.log(barcode.data);
-            this.sumbitItem(barcode.data);
+            this.lastPrediction = undefined;
+            this.sumbitItem(barcode.data, true);
         })
     }
-
     async setupDevices() {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             try {
-
                 const stream = await navigator.mediaDevices.getUserMedia({
                     video: true
                 });
@@ -96,6 +105,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
             }
         }
     }
+
 
     async predictWithCocoModel() {
         const config: cocoSSD.ModelConfig = { base: 'lite_mobilenet_v2' };
@@ -123,7 +133,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
         ctx.font = font;
         ctx.textBaseline = "top";
 
-        const acceptedPrediction: String[] = ["cake", "donut", "pizza", "hot dog", "carrot", "broccoli", "orange", "sandwich", "apple", "banana"];
+        const acceptedPrediction: String[] = ["cake", "donut", "pizza", "carrot", "broccoli", "orange", "sandwich", "apple", "banana"];
 
         //ctx.drawImage(videoElem,0, 0,videoElem.width,videoElem.height);
         predictions.forEach(prediction => {
@@ -137,7 +147,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
             const height = prediction.bbox[3];  // Bounding box
 
             //miror the position
-            x = this.WIDTH - x - width;
+            //x = this.WIDTH - x-width;
 
 
             ctx.strokeStyle = "#00FFFF";
@@ -153,20 +163,27 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
             if (this.lastPrediction != prediction.class) {
                 this.lastPrediction = prediction.class;
-                this.sumbitItem(prediction.class);
+                this.sumbitItem(prediction.class, false);
             }
         });
     }
 
-    sumbitItem(item: String) {
-        //TODO: call post to api
-        this.displayNotification(item)
-    }
-    displayNotification(item: String) {
-        this.addedSuccess = item;
-    }
+    sumbitItem(itemId: string, isUpc: boolean) {
 
-
+        let item: Item = {
+            upc: isUpc ? itemId : undefined,
+            title: !isUpc ? itemId : undefined,
+            quantity: 1,
+        }
+        console.log(item)
+        this.itemService.addNewItem(this.inventoryId, item).subscribe(itemInv => {
+            console.log(itemInv);
+            this.displayNotification(itemInv);
+        });
+    }
+    displayNotification(itemInv: ItemInventory) {
+        this.addedSuccess = itemInv.title;
+    }
 }
 
 

@@ -26,13 +26,13 @@
                 <td class="flex flex-row items-center space-x-3">
                     <img [src]="item.image || '/assets/placeholder.png'" class="h-12 w-12 object-cover object-center rounded-md">
                     <div class="flex flex-col">
-                        <span class="capitalize">{{item.title}}</span>
-                        <div class="flex items-center flex-row">
+                        <span class="capitalize text-sm md:text-base">{{item.title}}</span>
+                        <div class="flex md:items-center flex-col md:flex-row">
                             <ng-container *ngIf="item.expiredSoon">
                                 <div class="text-red-500">
                                     &bull; <span class="text-xs">Expires Soon</span>
                                 </div>
-                                <div class="mx-2 mt-0.5">
+                                <div class="mx-2 mt-0.5 hidden md:block">
                                     &#8212;
                                 </div>
                             </ng-container>
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                 </td>
-                <td>{{item.quantity}}</td>
+                <td class="text-sm md:text-base">{{item.quantity}}</td>
             </tr>
         </table>
         <a routerLink="/inventories/{{inventoryId}}/add" class="button-primary mt-6 inline-block">Add new items</a>
