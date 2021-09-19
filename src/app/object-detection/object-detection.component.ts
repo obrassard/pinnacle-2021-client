@@ -82,6 +82,8 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.barcodePicker?.destroy();
+        const vidTrack = this.stream?.getVideoTracks();
+        vidTrack?.forEach(track => track.stop());
     }
 
     private onScan(result: ScanResult) {
