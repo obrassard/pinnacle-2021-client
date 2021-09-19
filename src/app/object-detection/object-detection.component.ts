@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@ang
 import * as ScanditSDK from "scandit-sdk";
 import { Barcode, ScanResult, ScanSettings } from "scandit-sdk";
 import { UPCapiService } from './UPCapi/upcapi.service';
+import { ItemService, ItemInventory, Item } from '../services/item.service';
 
 //import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-webgl';
@@ -17,7 +18,7 @@ import * as cocoSSD from '@tensorflow-models/coco-ssd';
   providers: [UPCapiService]
 })
 export class ObjectDetectionComponent implements AfterViewInit, OnDestroy{
-  constructor(private upcService: UPCapiService) { }
+  constructor(private upcService: UPCapiService, private itemService: ItemService) { }
   WIDTH = 1500;
   HEIGHT = 500;
 
@@ -70,7 +71,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy{
   private onScan(result: ScanResult) {
       result.barcodes.forEach(barcode => {
           console.log(barcode.data);
-          this.sumbitItem(barcode.data);
+          this.sumbitItem(barcode.data,true);
       })
   }
 
@@ -151,17 +152,27 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy{
 
       if(this.lastPrediction != prediction.class){
         this.lastPrediction = prediction.class;
-        this.sumbitItem(prediction.class);
+        this.sumbitItem(prediction.class,false);
       }
     });
   }
 
-  sumbitItem(item:String){
-    //TODO: call post to api
-    this.displayNotification(item)
+  sumbitItem(itemId:string, isUpc:boolean){
+    
+    if(isUpc){}
+    let item: Item = {
+      upc: isUpc?itemId:undefined,
+      title: !isUpc?itemId:undefined,
+      quantity: 1,
+    }
+    console.log(item)
+    this.itemService.addNewItem(item).subscribe(itemInv => {
+        console.log(itemInv);
+        this.displayNotification(itemInv);
+    });
   }
-  displayNotification(item:String){
-    this.addedSuccess = item;
+  displayNotification(itemInv:ItemInventory){
+    this.addedSuccess = itemInv.title;
   }
 
   
