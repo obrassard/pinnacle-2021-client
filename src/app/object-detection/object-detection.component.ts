@@ -54,7 +54,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
     selectedIndex?: number;
 
     async ngAfterViewInit() {
-        this.setupDevices();
+        await this.setupDevices();
         this.seUpBarCodeScanner();
         this.predictWithCocoModel().then(() => {
             this.loading = false;
