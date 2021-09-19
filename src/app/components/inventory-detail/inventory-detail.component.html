@@ -25,9 +25,22 @@
             <tr class="hoverable" *ngFor="let item of i.items">
                 <td class="flex flex-row items-center space-x-3">
                     <img [src]="item.image || '/assets/placeholder.png'" class="h-12 w-12 object-cover object-center rounded-md">
-                    <span class="capitalize">{{item.title}}</span>
+                    <div class="flex flex-col">
+                        <span class="capitalize">{{item.title}}</span>
+                        <div class="flex items-center flex-row">
+                            <ng-container *ngIf="item.expiredSoon">
+                                <div class="text-red-500">
+                                    &bull; <span class="text-xs">Expires Soon</span>
+                                </div>
+                                <div class="mx-2 mt-0.5">
+                                    &#8212;
+                                </div>
+                            </ng-container>
+                            <span class="text-xs text-gray-500 mt-0.5">{{item.count}} purchase(s)</span>
+                        </div>
+                    </div>
                 </td>
-                <td>{{item.count}}</td>
+                <td>{{item.quantity}}</td>
             </tr>
         </table>
         <a routerLink="/inventories/{{inventoryId}}/add" class="button-primary mt-6 inline-block">Add new items</a>
