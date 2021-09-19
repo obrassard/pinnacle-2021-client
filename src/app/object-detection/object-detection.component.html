@@ -19,12 +19,13 @@
         <div class="flex">
             <div>
                 <p class="font-bold">Item {{ isAdding ? 'added': 'removed' }}</p>
-                <p>{{isAdding ? 'Added' : 'Removed'}} 1 {{addedSuccess}} to the inventory</p>
+                <p>{{isAdding ? 'Added' : 'Removed'}} {{quantity}} {{addedSuccess}} to the inventory</p>
                 <br>
                 <div *ngIf="isAdding">
                     <p>Modify the quantity of the item :</p>
                     <div class="grid grid-cols-8 gap-2 w-full">
-                        <button *ngFor="let i of [2,3,4,5,6,7,8]" (click)="modifyQuantity(i)" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3"
+                        <button *ngFor="let i of [2,3,4,5,6,7,8]" (click)="modifyQuantity(i)"
+                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-3 px-3"
                             [class.bg-primary]="selectedIndex === i">
                             {{i}}
                         </button>
