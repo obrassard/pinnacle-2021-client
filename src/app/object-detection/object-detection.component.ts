@@ -32,6 +32,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
     addedSuccess?: String;
     addedError?: String;
+    quantity:number = 1;
 
     private barcodePicker?: ScanditSDK.BarcodePicker;
 
@@ -43,8 +44,10 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
     error: any;
     lastPrediction?: string;
+    lastAddedItem?: ItemInventory
     loading = true;
     stream?: MediaStream;
+    selectedIndex?: number;
 
     async ngAfterViewInit() {
         await this.setupDevices();
@@ -66,7 +69,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
                 this.barcodePicker = barcodePicker;
                 const scanSettings = new ScanSettings({
                     enabledSymbologies: [Barcode.Symbology.UPCA, Barcode.Symbology.EAN13],
-                    codeDuplicateFilter: 1000,
+                    codeDuplicateFilter: 1000
                 });
 
                 barcodePicker.applyScanSettings(scanSettings);
@@ -174,11 +177,12 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
     }
 
     sumbitItem(itemId: string, isUpc: boolean) {
-
+        this.quantity = 1
+        this.selectedIndex = undefined;
         let item: Item = {
             upc: isUpc ? itemId : undefined,
             title: !isUpc ? itemId : undefined,
-            quantity: 1,
+            quantity: this.quantity,
         }
         console.log(item)
         this.itemService.addNewItem(this.inventoryId, item).subscribe(itemInv => {
@@ -187,7 +191,18 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
         });
     }
     displayNotification(itemInv: ItemInventory) {
+        this.lastAddedItem = itemInv;
         this.addedSuccess = itemInv.title;
+    }
+    modifyQuantity(newQuantity:number){
+        if(this.selectedIndex != newQuantity){
+            this.selectedIndex = newQuantity;
+            
+            this.quantity = newQuantity
+            this.itemService.modifyQuantityItem(newQuantity,this.lastAddedItem?.id as string).subscribe(() => {
+                console.log("yay")
+            });
+        }
     }
 }
 
