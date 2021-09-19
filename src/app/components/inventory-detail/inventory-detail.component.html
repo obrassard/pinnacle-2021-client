@@ -2,6 +2,7 @@
     <ng-lottie *ngIf="!inventory" [options]="animations.loading" width="200px" height="200px" containerClass="mx-auto">
     </ng-lottie>
     <ng-container *ngIf="inventory as i">
+        <a class="mb-3 block text-primary" routerLink="/">Back to list</a>
         <div class="flex flex-row justify-between">
             <p class="flex items-center space-x-1">
                 <i class="uil uil-box text-2xl text-primary"></i>
@@ -13,7 +14,7 @@
                     <i-feather name="plus" class="rounded-full absolute center"></i-feather>
                 </a>
                 <a routerLink="/inventories/{{inventoryId}}/remove"
-                    class="bg-primary hover:bg-primary-dark text-onPrimary rounded-full relative w-10 h-10 ">
+                    class="bg-red-400 hover:bg-red-500 text-onPrimary rounded-full relative w-10 h-10 ">
                     <i-feather name="minus" class="rounded-full absolute center"></i-feather>
                 </a>
             </div>

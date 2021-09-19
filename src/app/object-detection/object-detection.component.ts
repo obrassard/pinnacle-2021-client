@@ -22,7 +22,7 @@ import { environment } from '../../environments/environment.prod';
 })
 export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
-    private inventoryId: string;
+    public inventoryId: string;
 
     constructor(private itemService: ItemService,
         route: ActivatedRoute, public animations: LottieService) {
@@ -164,7 +164,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
                     x = this.WIDTH - x-width;
                 }
             }
-            
+
             ctx.strokeStyle = "#00FFFF";
             ctx.lineWidth = 2;
             ctx.strokeRect(x, y, width, height);  // Label background
@@ -222,7 +222,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
     modifyQuantity(newQuantity:number){
         if(this.selectedIndex != newQuantity){
             this.selectedIndex = newQuantity;
-            
+
             this.quantity = newQuantity
             this.itemService.modifyQuantityItem(newQuantity,this.lastAddedItem?.id as string).subscribe(() => {
                 console.log("modified quantity to" + this.quantity)
