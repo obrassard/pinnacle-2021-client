@@ -54,8 +54,8 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
     selectedIndex?: number;
 
     async ngAfterViewInit() {
-        await this.setupDevices();
         this.seUpBarCodeScanner();
+        await this.setupDevices();
         this.predictWithCocoModel().then(() => {
             this.loading = false;
         });
@@ -72,9 +72,12 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
                 scanSettings: new ScanSettings({
                     enabledSymbologies: [Barcode.Symbology.UPCA, Barcode.Symbology.EAN13],
                     codeDuplicateFilter: 1000
-                })
+                }),
+                visible: false
             }).then((barcodePicker) => {
                 this.barcodePicker = barcodePicker;
+                this.loading = false;
+                this.barcodePicker?.setVisible(true);
                 barcodePicker.on("scan", (s) => this.onScan(s));
             });
         });
