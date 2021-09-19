@@ -24,14 +24,22 @@
         padding: 0.25em;
         display: flex;
         align-items: center;
+        transition: all 300ms ease-in;
 
         input {
             margin-left: 0.25em;
+            cursor: inherit;
         }
 
         label {
             padding: 0 1em;
             color: white;
+            cursor: inherit;
+        }
+
+        &:hover {
+            background: rgba(32, 188, 165, var(--tw-bg-opacity));
+            cursor: pointer;
         }
     }
 
