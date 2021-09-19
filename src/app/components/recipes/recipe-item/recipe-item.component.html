@@ -1,11 +1,11 @@
 
-<a href="{{recipe.url}}" target="_blank">
-    <div class="recipe-item-container">
-        <img src="{{recipe.image}}">
-        <div class="recipe-content">
+<a href="{{recipe.url}}" target="_blank" class="">
+    <div class="shadow-sm border-radius border border-stroke bg-white w-full flex flex-row rounded-md mb-4">
+        <img src="{{recipe.image}}" class="w-24 object-center object-cover">
+        <div class="p-4 flex flex-col">
             <h3>{{recipe.label}}</h3>
-            <div>{{recipe.mealType[0]}}</div>
+            <div class="capitalize text-primary-dark">{{recipe.mealType[0]}}</div>
+            <div class="calories text-sm text-gray-500">Calories: {{recipe.calories}}</div>
         </div>
-        <div class="calories">Calories: {{recipe.calories}}</div>
     </div>
 </a>
