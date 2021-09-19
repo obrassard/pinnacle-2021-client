@@ -200,7 +200,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
             
             this.quantity = newQuantity
             this.itemService.modifyQuantityItem(newQuantity,this.lastAddedItem?.id as string).subscribe(() => {
-                console.log("yay")
+                console.log("modified quantity to" + this.quantity)
             });
         }
     }
