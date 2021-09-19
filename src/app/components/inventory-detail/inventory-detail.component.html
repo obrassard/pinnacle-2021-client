@@ -1,0 +1,48 @@
+<app-nav-wrapper>
+    <ng-lottie *ngIf="!inventory"
+        [options]="animations.loading"
+        width="200px" height="200px"
+        containerClass="mx-auto">
+    </ng-lottie>
+    <ng-container *ngIf="inventory as i">
+        <div class="flex flex-row justify-between">
+            <p class="flex items-center space-x-1">
+                <i class="uil uil-box text-2xl text-primary"></i>
+                <span>Inventory</span>
+            </p>
+            <a routerLink="/inventories/{{inventoryId}}/add" class="bg-primary hover:bg-primary-dark text-onPrimary rounded-full relative w-10 h-10 ">
+                <i-feather name="plus" class="rounded-full absolute center"></i-feather>
+            </a>
+        </div>
+
+        <h1>{{i.title}}</h1>
+
+        <table class="table mt-4">
+            <tr>
+                <th>Product</th>
+                <th>Qty</th>
+            </tr>
+            <tr class="hoverable" *ngFor="let item of i.items">
+                <td class="flex flex-row items-center space-x-3">
+                    <img [src]="item.image || '/assets/placeholder.png'" class="h-12 w-12 object-cover object-center rounded-md">
+                    <div class="flex flex-col">
+                        <span class="capitalize">{{item.title}}</span>
+                        <div class="flex items-center flex-row">
+                            <ng-container *ngIf="item.expiredSoon">
+                                <div class="text-red-500">
+                                    &bull; <span class="text-xs">Expires Soon</span>
+                                </div>
+                                <div class="mx-2 mt-0.5">
+                                    &#8212;
+                                </div>
+                            </ng-container>
+                            <span class="text-xs text-gray-500 mt-0.5">{{item.count}} purchase(s)</span>
+                        </div>
+                    </div>
+                </td>
+                <td>{{item.quantity}}</td>
+            </tr>
+        </table>
+        <a routerLink="/inventories/{{inventoryId}}/add" class="button-primary mt-6 inline-block">Add new items</a>
+    </ng-container>
+</app-nav-wrapper>

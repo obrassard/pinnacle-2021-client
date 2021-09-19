@@ -24,6 +24,7 @@ export class InventoryCreationModalComponent extends FormModalBaseComponent {
         this.inventoryService.createInventory(request.title).subscribe(inv => {
             this.inventoryCreated.emit(inv);
             this.close();
+            this.viewModel.clear();
         }).add(() => this.isLoading = false);
     }
 }

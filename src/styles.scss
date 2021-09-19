@@ -59,5 +59,28 @@ body {
 
 .button-primary {
     @apply rounded-full px-6 py-2 text-onPrimary bg-primary hover:bg-primary-dark transition-colors duration-300;
+}
 
+table.table {
+    @apply w-full bg-white rounded-md shadow-sm;
+
+    th, td {
+        padding: 1rem 2rem;
+        text-align: left;
+    }
+
+    th {
+        @apply font-heading font-semibold
+    }
+
+    tr {
+        &:not(:last-child) {
+            border-bottom: 1px solid;
+            @apply border-stroke;
+        }
+
+        &.hoverable {
+            @apply hover:bg-gray-100 cursor-pointer;
+        }
+    }
 }

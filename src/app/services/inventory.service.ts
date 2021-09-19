@@ -29,8 +29,8 @@ export class InventoryService extends HttpService {
         ));
     }
 
-    getInventoryItems(inventoryId: string): Observable<InventoryItems> {
-        return this.get<InventoryItems>(`inventories/${inventoryId}`);
+    getInventoryDetails(inventoryId: string): Observable<InventoryDetails> {
+        return this.get(`inventories/${inventoryId}`);
     }
 }
 
@@ -40,16 +40,17 @@ export interface Inventory {
     countOfItems: number;
 }
 
-export interface InventoryItem {
-    itemId: string;
-    title: string;
-    image: string;
-    quantity: number;
-    expiredSoon: boolean;
-    count: number;
+export interface InventoryDetails {
+    title: string,
+    items: InventoryItem[]
 }
 
-export interface InventoryItems {
-    title: string;
-    items: InventoryItem[];
+export interface InventoryItem {
+    itemId: string,
+    title: string,
+    image: string,
+    count: number,
+    quantity: number,
+    expiredSoon: boolean
 }
+
