@@ -16,6 +16,10 @@ export class ItemService extends HttpService {
     addNewItem(id: string, item: Item): Observable<ItemInventory> {
         return this.post(item, `inventories/${id}/items`)
     };
+
+    removeItem(id: string, item: Item): Observable<any> {
+        return this.http.patch(this.urlFor(`inventories/${id}/items`), item);
+    };
 }
 
 export interface Item {

@@ -20,11 +20,13 @@ import { ActivatedRoute } from '@angular/router';
     providers: [UPCapiService]
 })
 export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
+
     private inventoryId: string;
 
     constructor(private itemService: ItemService,
         route: ActivatedRoute, public animations: LottieService) {
         this.inventoryId = route.snapshot.params.id
+        this.isAdding = route.snapshot.params.operation === 'add'
     }
 
     WIDTH = 1500;
@@ -32,6 +34,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
     addedSuccess?: String;
     addedError?: String;
+    isAdding: boolean;
 
     private barcodePicker?: ScanditSDK.BarcodePicker;
 
@@ -61,14 +64,12 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
                 playSoundOnScan: true,
                 vibrateOnScan: true,
                 hideLogo: true,
+                scanSettings: new ScanSettings({
+                    enabledSymbologies: [Barcode.Symbology.UPCA, Barcode.Symbology.EAN13],
+                    codeDuplicateFilter: 1000
+                })
             }).then((barcodePicker) => {
                 this.barcodePicker = barcodePicker;
-                const scanSettings = new ScanSettings({
-                    enabledSymbologies: [Barcode.Symbology.UPCA, Barcode.Symbology.EAN13],
-                    codeDuplicateFilter: 1000,
-                });
-
-                barcodePicker.applyScanSettings(scanSettings);
                 barcodePicker.on("scan", (s) => this.onScan(s));
             });
         });
@@ -82,7 +83,10 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
         result.barcodes.forEach(barcode => {
             console.log(barcode.data);
             this.lastPrediction = undefined;
-            this.sumbitItem(barcode.data, true);
+            if (this.isAdding)
+                this.sumbitItem(barcode.data, true);
+            else
+                this.removeItem(barcode.data, true)
         })
     }
     async setupDevices() {
@@ -163,7 +167,10 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
 
             if (this.lastPrediction != prediction.class) {
                 this.lastPrediction = prediction.class;
-                this.sumbitItem(prediction.class, false);
+                if (this.isAdding)
+                    this.sumbitItem(prediction.class, false);
+                else
+                    this.removeItem(prediction.class, false);
             }
         });
     }
@@ -181,6 +188,21 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
             this.displayNotification(itemInv);
         });
     }
+
+    removeItem(itemId: string, isUpc: boolean) {
+
+        let item: Item = {
+            upc: isUpc ? itemId : undefined,
+            title: !isUpc ? itemId : undefined,
+            quantity: 1
+        }
+        console.log(item)
+        this.itemService.removeItem(this.inventoryId, item).subscribe(itemInv => {
+            console.log(itemInv);
+            this.displayNotification(itemInv);
+        });
+    }
+
     displayNotification(itemInv: ItemInventory) {
         this.addedSuccess = itemInv.title;
     }
