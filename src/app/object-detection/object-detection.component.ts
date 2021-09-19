@@ -44,6 +44,7 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
     error: any;
     lastPrediction?: string;
     loading = true;
+    stream?: MediaStream;
 
     async ngAfterViewInit() {
         await this.setupDevices();
@@ -88,13 +89,13 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
     async setupDevices() {
         if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: true
+                this.stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "environment" }
                 });
-                this.HEIGHT = stream.getVideoTracks()[0].getSettings().height!;
-                this.WIDTH = stream.getVideoTracks()[0].getSettings().width!;
-                if (stream) {
-                    this.video.nativeElement.srcObject = stream;
+                this.HEIGHT = this.stream.getVideoTracks()[0].getSettings().height!;
+                this.WIDTH = this.stream.getVideoTracks()[0].getSettings().width!;
+                if (this.stream) {
+                    this.video.nativeElement.srcObject = this.stream;
                     this.video.nativeElement.play();
                     this.error = null;
                 } else {
@@ -146,10 +147,14 @@ export class ObjectDetectionComponent implements AfterViewInit, OnDestroy {
             const width = prediction.bbox[2];
             const height = prediction.bbox[3];  // Bounding box
 
-            //miror the position
-            //x = this.WIDTH - x-width;
-
-
+            const facingMode:any = this.stream?.getVideoTracks()[0].getCapabilities();
+            if(facingMode != undefined){
+                if (facingMode[0] as string== 'environment'){
+                    //miror the position
+                    x = this.WIDTH - x-width;
+                }
+            }
+            
             ctx.strokeStyle = "#00FFFF";
             ctx.lineWidth = 2;
             ctx.strokeRect(x, y, width, height);  // Label background
